@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/">
+        <file>img/loading.gif</file>
+        <file>img/logo.png</file>
+        <file>img/new_logo.png</file>
+        <file>img/icons.png</file>
+        <file>img/key.png</file>
+        <file>img/face.png</file>
+        <file>img/Edit-Text.png</file>
+        <file>img/search.png</file>
+        <file>img/quit.png</file>
+        <file>img/help.png</file>
+        <file>img/about.png</file>
+        <file>img/sound0.ico</file>
+        <file>img/sound1.ico</file>
+        <file>img/addword0.ico</file>
+        <file>img/addword1.ico</file>
+        <file>img/backward.png</file>
+        <file>img/forward.png</file>
+        <file>img/swap.png</file>
+    </qresource>
+</RCC>
