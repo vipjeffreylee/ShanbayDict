@@ -28,7 +28,8 @@
 **
 ** $END_LICENSE$
 **
-****************************************************************************/#include "dictview.h"
+****************************************************************************/
+#include "dictview.h"
 #include "ui_dictview.h"
 #include <QDebug>
 #include <QDir>
@@ -91,7 +92,6 @@ void DictView::clear(){
     showShanbay(0);
 }
 void DictView::setShanbayNetStatus(int status){
-
     ui->webView->page()->mainFrame()->evaluateJavaScript(QString("jfSetDictStatus('ShanbayNet_status',%1)").arg(status));
     showShanbay(1);
 }
@@ -106,6 +106,9 @@ void DictView::setWordNamePron(QString str){
 }
 
 void DictView::setWordDefinition(QString str){
+  // qDebug()<<str;
+    str=str.replace('\"','\'').replace("\r","<br>");
+  //  qDebug()<<str;
     ui->webView->page()->mainFrame()->evaluateJavaScript(QString("jfSetValue('ShanbayDict_word_definition',\"%1\");").arg(str));
 
 }
