@@ -237,13 +237,13 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
                 DICT::word->en_definitions+="<br>";
 
             }
-            //            qDebug()<<QString("wordname=%1,learning_id=%2,definition=%3,pron=[%4],audio=%5,en_definition=%6")
-            //                      .arg(DICT::word->name)
-            //                      .arg(DICT::word->learning_id)
-            //                      .arg(DICT::word->definition)
-            //                      .arg(DICT::word->pron)
-            //                      .arg(DICT::word->audio)
-            //                      .arg(DICT::word->en_definitions);
+//                        qDebug()<<QString("wordname=%1,learning_id=%2,definition=%3,pron=[%4],audio=%5,en_definition=%6")
+//                                  .arg(DICT::word->name)
+//                                  .arg(DICT::word->learning_id)
+//                                  .arg(DICT::word->definition)
+//                                  .arg(DICT::word->pron)
+//                                  .arg(DICT::word->audio)
+//                                  .arg(DICT::word->en_definitions);
             emit signalQueryFinished();
             //qDebug()<<DICT::word->learning_id;
             if(DICT::word->learning_id!="0"){
