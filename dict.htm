@@ -1,7 +1,9 @@
 <html><head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title></title>
-
+<link rel="Stylesheet" type="text/css" href="./seadict/public.44.css">		
+<link rel="Stylesheet" type="text/css" href="./seadict/sub-search.33.css">        		
+<script type="text/javascript" src="./seadict/jquery.min.js"></script>		
 <style type="text/css">
 	body, table, th, td	{	font-family: "Tahoma, Arial"; font-size: 9pt; line-height: 120%	}
 	ol	{	line-height: 140%; margin: 0 0 0 36px	}
@@ -203,16 +205,73 @@ function lgShowElement(sID, nShow) {
 
 	return false;
 }
+//////////////////
+function jfTab() {
+	$(".tab>h6>span").not(".wait").click(function() {
+		$(this).addClass("current").siblings().removeClass("current");
+		$(".tab>.tabcontent").eq($(".tab>h6>span").index(this)).show().siblings(".tabcontent").hide()
+	}).hover(function() {
+		$(this).css("backgroundColor", "#FFF")
+	},
+	function() {
+		$(this).css("backgroundColor", "")
+	});
+	$("#close").click(function() {
+		$("#close-alert").hide()
+	});
+	$(".close_").click(function() {
+		$(".tip_1").hide()
+	});
+	$(".close_").click(function() {
+		$(".s_top").hide()
+	});
+};
+function toggleFold(block) {
+	var fold = block.siblings(".fold"),
+	unfold = block.siblings(".unfold"),
+	unfolditem = block.find(".unfold");
+	unfold.click(function() {
+		unfolditem.hide();
+		fold.show();
+		unfold.hide()
+	});
+	fold.click(function() {
+		unfolditem.show();
+		unfold.show();
+		fold.hide()
+	})
+}
+function jfRender(){
+	jfTab();
+	toggleFold($("#words-block"));
+	toggleFold($("#synonym-block"));
+	toggleFold($("#antonym-block"));	
+	toggleFold($("#jj-yf"));
+	speaker=$("img.speaker")
+	speaker.attr("src","./img/speaker.png");
+	var str="<a href='http://audio.dict.cn/mp3.php?q="+speaker.attr("audio")+"'>"+$("span.seach-left").html()+"</a>";
+	$("span.seach-left").html(str);
+	$("img.#add-word").remove();
+	$("img.#word-level").remove();
+	$("img.vedio").remove();
+	$(".folds").remove();
+	$(".cont-two").remove();
+	$("#ctrl1").remove();
+	$(".ef-video").remove();
+	$("div.cxbh").css("min-height","0px");
+	$("p.block-2>img.speaker").remove();
 
+}
+////////////
 </script>
 </head>
 
-<bodystyle="OVERFLOW-X: visible; OVERFLOW-Y: auto" ondragstart="return false" bottommargin="0" leftmargin="0" rightmargin="0" topmargin="0" bgcolor="#ffffff">
+<body onload="jfRender();" style="OVERFLOW-X: visible; OVERFLOW-Y: auto" ondragstart="return false" bottommargin="0" leftmargin="0" rightmargin="0" topmargin="0" bgcolor="#ffffff">
 <div style="FONT-FAMILY: Tahoma, Arial; HEIGHT: 100%; FONT-SIZE: 9pt" dir="ltr" id="main">
 	<div style="DISPLAY: none" id="main_info"></div>
 	<div id="main_wnd">
 		<div id="dictarea"></div>
-		<div id="ShanbayDict" style="DISPLAY:none;PADDING-BOTTOM: 0px; LINE-HEIGHT: 1.2em; PADDING-LEFT: 6px; WIDTH: 96%; PADDING-RIGHT: 10px; FONT-FAMILY: 'Tahoma'; FONT-SIZE: 10.5pt; PADDING-TOP: 6px">
+		<div id="ShanbayDict" style="DISPLAY:none;PADDING-BOTTOM: 0px; LINE-HEIGHT: 1.2em; PADDING-LEFT: 10px; WIDTH: 96%; PADDING-RIGHT: 10px; FONT-FAMILY: 'Tahoma'; FONT-SIZE: 10.5pt; PADDING-TOP: 10px">
 			<table id="ShanbayDict_head" onselectstart="return true" border="0" cellspacing="0" cellpadding="0">
 			<tbody>
 			<tr>
@@ -234,17 +293,35 @@ function lgShowElement(sID, nShow) {
 							<img border="0" hspace="0" align="top" src="./img/add0.png" width="15" height="15" onmouseout="this.src='./img/add0.png'" onmousemove="this.src='./img/add1.png'">
 						</a>
 					</span>
-					<span id="ShanbayDict_info" style="color:black;MARGIN: 10px 0px">
+					<span id="ShanbayDict_info" style="color:red">
 					</span>
 					</div>
-					<div id="ShanbayDict_word_definition" style="MARGIN: 10px 0px">
+					<div id="ShanbayDict_word_definition" style="MARGIN: 4px 0px">
 					</div>
-					<div id="ShanbayDict_word_example" style="MARGIN: 6px 0px">
+					<div id="ShanbayDict_word_example" style="MARGIN: 4px 0px">
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	
+	<div id="dictarea"></div>
+	<div id="YoudaoDict" style="DISPLAY:none;PADDING-BOTTOM: 0px; LINE-HEIGHT: 1.2em; PADDING-LEFT: 10px; WIDTH: 96%; PADDING-RIGHT: 10px; FONT-FAMILY: 'Tahoma'; FONT-SIZE: 10.5pt; PADDING-TOP: 10px">
+			<table id="SeaDict_head" onselectstart="return true" border="0" cellspacing="0" cellpadding="0">
+			<tbody>
+			<tr>
+			<td style="BORDER-BOTTOM: #92b0dd 1px solid; BORDER-LEFT: #92b0dd 1px solid; LINE-HEIGHT: 1em; FONT-FAMILY:'Tahoma,Verdana'; BACKGROUND: #FFFFFF; COLOR: #000080; BORDER-TOP: #92b0dd 1px solid; BORDER-RIGHT: #92b0dd 1px solid" nowrap="">
+			<div style="MARGIN: 0px 0px 0px 0px;text-align:center;" id="ShanbayDict_title" class=btn2_mouse_out onmouseover="this.className='btn2_mouse_over'" onmouseout="this.className='btn2_mouse_out'">
+				<span style="top:0px;position: relative;"> <img border="0" hspace="0" align="top" src="./img/youdao.ico" width="15" height="20"></span><span style="top:2px;position: relative;FONT-SIZE: 12px;color:#369">有道词典</span><img id='YoudaoNet_status' border="0" hspace="0" align="top" src="./img/ok.png" width="12" height="12">
+			</div>
+			</td>
+			<TD style="BORDER-BOTTOM: #92b0dd 1px solid" width="100%" align=right></td>
+			</tr></tbody></table>
+
+			<div id="YoudaoDict_body">
+			jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj
+			</div>
+		</div>
+	</div>
+</div>
 
 </body></html>

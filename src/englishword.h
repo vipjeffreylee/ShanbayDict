@@ -60,6 +60,7 @@ public:
     QString formatNameAndPron();
     QString formatDefinition();
     QString formatExamples();
+    QString youdaoWord;
 
 };
 

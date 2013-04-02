@@ -36,7 +36,7 @@ class QNetworkAccessManager;
 class QNetworkRequest;
 class QNetworkReply;
 
-enum HttpAction{NoAction,GetSessionidAction,LoginAction,QueryWordAction,AddWordAction,AddExampleAction,QueryWordExamplesAction};
+enum class HttpAction{NoAction,GetSessionidAction,LoginAction,QueryWordAction,AddWordAction,AddExampleAction,QueryWordExamplesAction};
 class ShanbayNet : public QObject
 {
     Q_OBJECT

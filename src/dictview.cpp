@@ -88,6 +88,7 @@ void DictView::clear(){
     setWordDefinition(nullstr);
     setWordExample(nullstr);
     setTipInfo(nullstr);
+    setYoudaoWord(nullstr);
     showSpeak(0);
     showShanbay(0);
 }
@@ -95,7 +96,10 @@ void DictView::setShanbayNetStatus(int status){
     ui->webView->page()->mainFrame()->evaluateJavaScript(QString("jfSetDictStatus('ShanbayNet_status',%1)").arg(status));
     showShanbay(1);
 }
-
+void DictView::setYoudaoNetStatus(int status){
+    ui->webView->page()->mainFrame()->evaluateJavaScript(QString("jfSetDictStatus('YoudaoNet_status',%1)").arg(status));
+    showYoudao(1);
+}
 
 void DictView::setWordNamePron(QString str){
     //ui->webView->setHtml("dddddddddddddddd");
@@ -125,5 +129,11 @@ void DictView::showSpeak(int show){
 void DictView::showShanbay(int show){
     ui->webView->page()->mainFrame()->evaluateJavaScript(QString("lgShowElement('ShanbayDict',\"%1\");").arg(show));
 }
-
-
+void DictView::showYoudao(int show){
+    ui->webView->page()->mainFrame()->evaluateJavaScript(QString("lgShowElement('YoudaoDict',\"%1\");").arg(show));
+}
+void DictView::setYoudaoWord(QString &str){
+    str=str.replace('\"','\'').replace("\r","<br>");
+  //  qDebug()<<str;
+    ui->webView->page()->mainFrame()->evaluateJavaScript(QString("jfSetValue('YoudaoDict_body',\"%1\");").arg(str));
+}

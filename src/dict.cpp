@@ -45,7 +45,7 @@ Config *cfg;
 
 DictView *dictView;
 ShanbayNet *shanbayNet;
-
+YoudaoNet *youdaoNet;
 MainWindow *mainWindow=0;
 BallonWindow *ballonWindow;
 LoginDialog *loginDialog;
@@ -85,10 +85,15 @@ Msg::~Msg(){
 void Msg::quit(){
     close();
 }
+void Msg::slotYoudaoQueryFinished(){
+    dictView->setYoudaoNetStatus(1);
+    dictView->setYoudaoWord(DICT::word->youdaoWord);
+}
+
 void Msg::slotShanbayQueryFinished(){
     dictView->setShanbayNetStatus(1);//ok
     if(DICT::word->name.isEmpty()){
-        dictView->setTipInfo("扇贝网服务器没有返回该单词的释义，请使用文本翻译功能试试。");
+        dictView->setTipInfo(tr("扇贝网服务器没有返回%1的释义，请使用文本翻译功能试试。").arg(DICT::shanbayNet->queryword));
         return;
     }
     dictView->setWordNamePron(DICT::word->formatNameAndPron());
@@ -215,7 +220,9 @@ void forlicence(){
 void query(QString &word){
     dictView->clear();
     dictView->setShanbayNetStatus(0);//loading
+    dictView->setYoudaoNetStatus(0);
     shanbayNet->queryWord(word);
+    youdaoNet->queryWord(word);
 }
 
 void forBallonWinQuery(QString word){
@@ -272,6 +279,8 @@ void loginFinshed(bool ok){
     if(ok){
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         player = new QMediaPlayer;
+        youdaoNet=new YoudaoNet();
+        QObject::connect(youdaoNet,SIGNAL(signalQueryFinished()),msg,SLOT(slotYoudaoQueryFinished()));
         QObject::connect(shanbayNet,SIGNAL(signalQueryFinished()),msg,SLOT(slotShanbayQueryFinished()));
         QObject::connect(shanbayNet,SIGNAL(signalQueryExampleFinished()),msg,SLOT(slotShanbayQueryExampleFinished()));
         QObject::connect(shanbayNet,SIGNAL(signalAddwordFinished(bool)),msg,SLOT(slotAddwordFinished(bool)));

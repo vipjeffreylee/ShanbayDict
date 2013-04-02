@@ -57,7 +57,7 @@ void ShanbayNet::getSessionid(){
     request.setRawHeader("Connection","keep-alive");
     request.setRawHeader("Host","www.shanbay.com");
     request.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7");
-    httpAction=GetSessionidAction;
+    httpAction=HttpAction::GetSessionidAction;
     http->get(request);
 }
 
@@ -73,7 +73,7 @@ void ShanbayNet::queryWord(const QString &word){
     request.setRawHeader("Connection","keep-alive");
     request.setRawHeader("Host","www.shanbay.com");
     request.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7");
-    httpAction=QueryWordAction;
+    httpAction=HttpAction::QueryWordAction;
     //qDebug()<<"Query "+word;
     http->get(request);
 }
@@ -91,7 +91,7 @@ void ShanbayNet::queryExamples(QString learningid){
     request.setRawHeader("Connection","keep-alive");
     request.setRawHeader("Host","www.shanbay.com");
     request.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7");
-    httpAction=QueryWordExamplesAction;
+    httpAction=HttpAction::QueryWordExamplesAction;
     http->get(request);
 }
 
@@ -115,7 +115,7 @@ void ShanbayNet::addWord(const QString &word){
     request.setRawHeader("Connection","keep-alive");
     request.setRawHeader("Host","www.shanbay.com");
     request.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7");
-    httpAction=AddWordAction;
+    httpAction=HttpAction::AddWordAction;
     http->get(request);
 }
 void ShanbayNet::addExample(QString sentence, QString translation){
@@ -140,7 +140,7 @@ void ShanbayNet::addExample(QString sentence, QString translation){
     request.setRawHeader("Connection","keep-alive");
     request.setRawHeader("Host","www.shanbay.com");
     request.setRawHeader("User-Agent","Mozilla/5.0 (Windows NT 6.1) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.63 Safari/535.7");
-    httpAction=AddExampleAction;
+    httpAction=HttpAction::AddExampleAction;
     http->get(request);
 }
 
@@ -170,7 +170,7 @@ void ShanbayNet::loginShanbay(){
     //qDebug()<<QString("username=%1&password=%2&").arg(QUrl::toPercentEncoding(username).constData()).arg(password);
     postData.append("login=登录&continue=home&u=1&next=");
     request.setHeader(QNetworkRequest::ContentLengthHeader,postData.size());
-    httpAction=LoginAction;
+    httpAction=HttpAction::LoginAction;
     http->post(request,postData);
 }
 
@@ -187,9 +187,9 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
     QJsonDocument jsonDoc;
     QJsonObject jsonObj,vocObj,en_definitionsObj;
     switch(httpAction){
-    case NoAction:
+    case HttpAction::NoAction:
         break;
-    case GetSessionidAction:
+    case HttpAction::GetSessionidAction:
         sessionid=getCookie("csrftoken");
         //qDebug()<<"sessionid="<<sessionid<<reply->readAll();
         if(sessionidOk()){
@@ -199,8 +199,8 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
             emit signalLoginFinished(false,"无法连接扇贝网，请稍后重试");
         }
         break;
-    case LoginAction:
-        httpAction=NoAction;
+    case HttpAction::LoginAction:
+        httpAction=HttpAction::NoAction;
         if(0==reply->readAll().size()){
             nickname=QUrl::fromPercentEncoding(getCookie("nickname").toLatin1());
             //qDebug()<<"Login OK!nickname="<<nickname;
@@ -210,7 +210,7 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
             emit signalLoginFinished(false,"登录失败！用户名或者密码错误");
         }
         break;
-    case QueryWordAction:
+    case HttpAction::QueryWordAction:
         //qDebug()<<"query word";
         //jsondata=jsonParser->parse(reply->readAll(),&jsonok);
         jsonDoc=QJsonDocument::fromJson(reply->readAll());
@@ -254,7 +254,7 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
             //qDebug()<<jsondata;
         }
         break;
-    case AddExampleAction:
+    case HttpAction::AddExampleAction:
         //qDebug()<<QString::fromUtf8(reply->readAll());
         // jsondata=jsonParser->parse(reply->readAll(),&jsonok);
         jsonDoc=QJsonDocument::fromJson(reply->readAll());
@@ -279,7 +279,7 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
             emit signalAddExampleFinished("例句添加失败");
         }
         break;
-    case QueryWordExamplesAction:
+    case HttpAction::QueryWordExamplesAction:
         qDebug()<<"query word examples";
         jsonDoc=QJsonDocument::fromJson(reply->readAll());
         if(!jsonDoc.isNull()){
@@ -301,7 +301,7 @@ void ShanbayNet::httpfinished(QNetworkReply* reply){
 
         }
         break;
-    case AddWordAction:
+    case HttpAction::AddWordAction:
         //qDebug()<<"add word_____________"<<QString::fromUtf8(reply->readAll());
 
 

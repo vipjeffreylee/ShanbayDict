@@ -58,6 +58,7 @@ void EnglishWord::clear(){
     this->pron.clear();
     this->audio.clear();
     this->examples.clear();
+    this->youdaoWord.clear();
 }
 QString EnglishWord::formatDefinition(){
     return QString("<span style='color:#000000;font-size:15px;font-weight: bolder;font-family:Arial, Helvetica, Geneva;' >%1</span><br><font color='#000000' face='Arial, Helvetica, Geneva'>%2</font>")

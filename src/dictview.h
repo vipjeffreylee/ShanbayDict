@@ -56,16 +56,16 @@ private slots:
 
 public:
     void showShanbay(int show);
-    void showSeadict(int show);
+    void showYoudao(int show);
     void clear();
     void setShanbayNetStatus(int status);
-    void setSeadictNetStatus(int status);
+    void setYoudaoNetStatus(int status);
     void setWordNamePron(QString str);
     void setWordDefinition(QString str);
     void setWordExample(QString str);
     void setTipInfo(QString str);
     void showSpeak(int show);
-    void setSeaDict(QString& str);
+    void setYoudaoWord(QString& str);
 };
 
 #endif // DICTVIEW_H

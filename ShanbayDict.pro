@@ -30,7 +30,8 @@ SOURCES += \
     src/history.cpp \
     src/dictview.cpp \
     src/texttranslatenet.cpp \
-    src/cfgdialog.cpp
+    src/cfgdialog.cpp \
+    src/youdaonet.cpp
 HEADERS  += \
     src/shanbaynet.h \
     src/logindialog.h \
@@ -44,7 +45,8 @@ HEADERS  += \
     src/history.h \
     src/dictview.h \
     src/texttranslatenet.h \
-    src/cfgdialog.h
+    src/cfgdialog.h \
+    src/youdaonet.h
 FORMS    += \
     src/logindialog.ui \
     src/mainwindow.ui \
@@ -60,6 +62,9 @@ CONFIG += C++11
 RESOURCES += \
     icons.qrc
 RC_FILE = app.rc
+macx{
+ICON = logo.icns
+}
 
 CONFIG(debug, debug|release) {
     DEFINES += DEBUG

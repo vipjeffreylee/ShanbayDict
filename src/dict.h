@@ -38,6 +38,7 @@
 #include <QApplication>
 #include <QAction>
 #include "shanbaynet.h"
+#include "youdaonet.h"
 #include "englishword.h"
 #include "mainwindow.h"
 #include "ballonwindow.h"
@@ -64,6 +65,7 @@ signals:
     //void signalBallonQueryFinished();
 public slots:
     void slotShanbayQueryFinished();
+    void slotYoudaoQueryFinished();
     void slotShanbayQueryExampleFinished();
     void slotAddwordFinished(bool ok);
     void quit();
@@ -77,6 +79,7 @@ enum BACKFRONT{BACK,FRONT};
 extern Msg *msg;
 extern Config *cfg;
 extern ShanbayNet *shanbayNet;
+extern YoudaoNet *youdaoNet;
 extern MainWindow *mainWindow;
 extern BallonWindow *ballonWindow;
 extern LoginDialog * loginDialog;
