@@ -1,19 +1,33 @@
-#-------------------------------------------------
-#
-# Project created by QtCreator 2012-01-06T14:00:30
-#
-#-------------------------------------------------
-
-QT       += core gui\
-            network\
-            webkitwidgets\
-            multimedia
-            #phonon
-greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
-
-
-TARGET = ShanbayDict
 TEMPLATE = app
+TARGET = ShanbayDict
+QT += core gui network webkit multimedia
+#phonon
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
+
+CONFIG += C++11
+win32:RC_FILE = app.rc
+win32 {
+    INCLUDEPATH +=./lib
+    Release:LIBS  += -L../ShanbayDict/lib  -lWinHook
+    Debug:LIBS  += -L../ShanbayDict/lib/debug  -lWinHook
+}
+
+CONFIG(debug, debug|release) {
+    MOC_DIR = $$OUT_PWD/tmp/debug
+    UI_DIR = $$OUT_PWD/tmp/debug
+    RCC_DIR = $$OUT_PWD/tmp/debug
+    OBJECTS_DIR = $$OUT_PWD/tmp/debug
+    DEFINES += DEBUG
+}else{
+    MOC_DIR = $$OUT_PWD/tmp/release
+    UI_DIR = $$OUT_PWD/tmp/release
+    RCC_DIR = $$OUT_PWD/tmp/release
+    OBJECTS_DIR = $$OUT_PWD/tmp/release
+    DEFINES += NDEBUG
+}
+#DEFINES += QT_NO_WARNING_OUTPUT\
+#           QT_NO_DEBUG_OUTPUT
+
 
 INCLUDEPATH += src
 SOURCES += \
@@ -51,56 +65,6 @@ FORMS    += \
     src/ballonwindow.ui \
     src/dictview.ui \
     src/cfgdialog.ui
-win32{
-    INCLUDEPATH +=./lib
-    Release:LIBS  += -L../ShanbayDict/lib  -lWinHook
-    Debug:LIBS  += -L../ShanbayDict/lib/debug  -lWinHook
-}
-CONFIG += C++11
 RESOURCES += \
     icons.qrc
-RC_FILE = app.rc
-
-CONFIG(debug, debug|release) {
-    DEFINES += DEBUG
-}else{
-    DEFINES += NDEBUG
-}
-#DEFINES += QT_NO_WARNING_OUTPUT\
-#           QT_NO_DEBUG_OUTPUT
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

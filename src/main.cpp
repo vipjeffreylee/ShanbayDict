@@ -28,7 +28,7 @@
 ** $END_LICENSE$
 **
 ****************************************************************************/
-#include<QtWidgets>
+#include <QApplication>
 #include "dict.h"
 
 
