@@ -48,12 +48,15 @@ CfgDialog::~CfgDialog()
 {
     delete ui;
 }
-void CfgDialog::closeEvent(QCloseEvent *event) {
+
+void CfgDialog::closeEvent(QCloseEvent *event)
+{
     event->ignore();
     this->hide();
 }
 
-void CfgDialog::loadcfg(){
+void CfgDialog::loadcfg()
+{
     ui->screenCheckBox->setChecked(DICT::cfg->isGetscreentext());
     ui->clipboardCheckBox->setChecked(DICT::cfg->isGetclipboardtext());
     ui->selectedCheckBox->setChecked(DICT::cfg->isGetselectedtext());
@@ -64,10 +67,14 @@ void CfgDialog::loadcfg(){
     ui->autorunCheckBox->setChecked(DICT::cfg->isAutorun());
     ui->autohideCheckBox->setChecked(DICT::cfg->isAutohide());
 }
-void CfgDialog::cancelClick(){
+
+void CfgDialog::cancelClick()
+{
     this->hide();
 }
-void CfgDialog::savecfgClick(){
+
+void CfgDialog::savecfgClick()
+{
     DICT::cfg->setScreentext(ui->screenCheckBox->checkState());
     DICT::cfg->setClipboardtext(ui->clipboardCheckBox->checkState());
     DICT::cfg->setSelectedtext(ui->selectedCheckBox->checkState());
@@ -78,20 +85,26 @@ void CfgDialog::savecfgClick(){
     DICT::cfg->setAutohide(ui->autohideCheckBox->checkState());
 
 #if defined(Q_OS_WIN)
-    if(DICT::cfg->isAutorun()!=ui->autorunCheckBox->isChecked()){
+    if (DICT::cfg->isAutorun() != ui->autorunCheckBox->isChecked())
+    {
         DICT::cfg->setAutorun(ui->autorunCheckBox->checkState());
-        QSettings *reg=new QSettings("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft"
-                                     "\\Windows\\CurrentVersion\\Run",QSettings::NativeFormat);
+        QSettings *reg = new QSettings(
+                "HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft"
+                "\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
         //开机自动运行
-        if (DICT::cfg->isAutorun()){
-            reg->setValue("ShanbayDict",QApplication::applicationFilePath().replace('/','\\'));
-        }else{
-            reg->setValue("ShanbayDict","");
+        if (DICT::cfg->isAutorun())
+        {
+            reg->setValue("ShanbayDict", 
+                    QApplication::applicationFilePath().replace('/','\\'));
+        }
+        else
+        {
+            reg->setValue("ShanbayDict", "");
         }
         reg->deleteLater();
     }
-
 #endif
+
     DICT::updateCfg();
     this->hide();
 }
