@@ -32,127 +32,205 @@
 
 Config::Config()
 {
-    settings=new QSettings("shanbay.ini",QSettings::IniFormat);
+    settings = new QSettings("shanbay.ini", QSettings::IniFormat);
     load();
 }
-Config::~Config(){
+
+Config::~Config()
+{
     settings->sync();
     settings->deleteLater();
 }
 
-void Config::load(){
-    username=settings->value("username","").toString();
-    userpass=settings->value("userpass","").toString();
-    savepass=settings->value("savepass",false).toBool();
-    autologin=settings->value("autologin",false).toBool();
-    autospeak=settings->value("autospeak",true).toBool();
-    getscreentext=settings->value("getscreentext",true).toBool();
+void Config::load()
+{
+    _config["username"] = settings->value("username", 
+            "").toString();
+    _config["userpass"] = settings->value("userpass", 
+            "").toString();
+    _config["savepass"] = settings->value("savepass", 
+            false).toBool();
+    _config["autologin"] = settings->value("autologin", 
+            false).toBool();
+    _config["autospeak"] = settings->value("autospeak", 
+            true).toBool();
+    _config["getscreentext"] = settings->value(
+            "getscreentext", true).toBool();
 #ifdef Q_OS_WIN
-    getclipboardtext=settings->value("getclipboardtext",true).toBool();
-    getselectedtext=settings->value("getselectedtext",false).toBool();
+    _config["getclipboardtext"] = settings->value(
+            "getclipboardtext", true).toBool();
+    _config["getselectedtext"] = settings->value(
+            "getselectedtext", false).toBool();
 #else
-    getclipboardtext=settings->value("getclipboardtext",false).toBool();
-    getselectedtext=settings->value("getselectedtext",true).toBool();
+    _config["getclipboardtext"] = settings->value(
+            "getclipboardtext", false).toBool();
+    _config["getselectedtext"] = settings->value(
+            "getselectedtext", true).toBool();
 #endif
-    showquerylogo=settings->value("showquerylogo",true).toBool();
-    autorun=settings->value("autorun",false).toBool();
-    autohide=settings->value("autohide",true).toBool();
-    autoaddword=settings->value("autoaddword",false).toBool();
+    _config["showquerylogo"] = settings->value(
+            "showquerylogo", true).toBool();
+    _config["autorun"] = settings->value("autorun", 
+            false).toBool();
+    _config["autohide"] = settings->value("autohide", 
+            true).toBool();
+    _config["autoaddword"] = settings->value("autoaddword", 
+            false).toBool();
 }
-void Config::save(){
-    settings->setValue("username",username);
-    settings->setValue("userpass",userpass);
-    settings->setValue("savepass",savepass);
-    settings->setValue("autologin",autologin);
-    settings->setValue("autospeak",autospeak);
-    settings->setValue("getscreentext",getscreentext);
-    settings->setValue("getclipboardtext",getclipboardtext);
-    settings->setValue("getselectedtext",getselectedtext);
-    settings->setValue("showquerylogo",showquerylogo);
-    settings->setValue("autorun",autorun);
-    settings->setValue("autohide",autohide);
-    settings->setValue("autoaddword",autoaddword);
+
+void Config::save()
+{
+    QMapIterator<QString, QVariant> it(_config);
+    while (it.hasNext())
+    {
+        it.next();
+        settings->setValue(it.key(), it.value());
+    }
+
+    /*
+    settings->setValue("username", username);
+    settings->setValue("userpass", userpass);
+    settings->setValue("savepass", savepass);
+    settings->setValue("autologin", autologin);
+    settings->setValue("autospeak", autospeak);
+    settings->setValue("getscreentext", getscreentext);
+    settings->setValue("getclipboardtext", getclipboardtext);
+    settings->setValue("getselectedtext", getselectedtext);
+    settings->setValue("showquerylogo", showquerylogo);
+    settings->setValue("autorun", autorun);
+    settings->setValue("autohide", autohide);
+    settings->setValue("autoaddword", autoaddword);
+    */
     settings->sync();
-
-}
-QString Config::getUsername(){
-    return username;
-}
-void Config::setUsername(QString name){
-    username=name;
 }
 
-QString Config::getUserpass(){
-    return userpass;
-}
-void Config::setUserpass(QString text){
-    userpass=text;
-}
-
-bool Config::isSavepass(){
-    return savepass;
-}
-void Config::setSavepass(bool value){
-    savepass=value;
+QString Config::getUsername() const
+{
+    return _config.contains("username") ?
+        _config["username"].toString() : QString();
 }
 
-bool Config::isAutologin(){
-    return autologin;
-}
-void Config::setAutologin(bool value){
-    autologin=value;
+void Config::setUsername(const QString &name)
+{
+    _config["username"] = name;
 }
 
-bool Config::isAutohide(){
-    return autohide;
-}
-void Config::setAutohide(bool value){
-    autohide=value;
-}
-
-bool Config::isAutospeak(){
-    return autospeak;
-}
-void Config::setAutospeak(bool value){
-    autospeak=value;
+QString Config::getUserpass() const
+{
+    return _config.contains("userpass") ?
+        _config["userpass"].toString() : QString();
 }
 
-bool Config::isAutorun(){
-    return autorun;
-}
-void Config::setAutorun(bool value){
-    autorun=value;
+void Config::setUserpass(const QString &text)
+{
+    _config["userpass"] = text;
 }
 
-bool Config::isGetclipboardtext(){
-    return getclipboardtext;
-}
-void Config::setClipboardtext(bool value){
-    getclipboardtext=value;
-}
-bool Config::isGetselectedtext(){
-    return getselectedtext;
-}
-void Config::setSelectedtext(bool value){
-    getselectedtext=value;
+bool Config::isSavepass() const
+{
+    return _config.contains("savepass") ?
+        _config["savepass"].toBool() : false;
 }
 
-bool Config::isGetscreentext(){
-    return getscreentext;
-}
-void Config::setScreentext(bool value){
-    getscreentext=value;
+void Config::setSavepass(bool value)
+{
+    _config["savepass"] = value;
 }
 
-bool Config::isShowquerylogo(){
-    return showquerylogo;
+bool Config::isAutologin() const
+{
+    return _config.contains("autologin") ?
+        _config["autologin"].toBool() : false;
 }
-void Config::setShowquerylogo(bool value){
-    showquerylogo=value;
+
+void Config::setAutologin(bool value)
+{
+    _config["autologin"] = value;
 }
-bool Config::isAutoaddword(){
-    return autoaddword;
+
+bool Config::isAutohide() const
+{
+    return _config.contains("autohide") ?
+        _config["autohide"].toBool() : true;
 }
-void Config::setAutoaddword(bool value){
-    autoaddword=value;
+
+void Config::setAutohide(bool value)
+{
+    _config["autohide"] = value;
+}
+
+bool Config::isAutospeak() const
+{
+    return _config.contains("autospeak") ?
+        _config["autospeak"].toBool() : true;
+}
+
+void Config::setAutospeak(bool value)
+{
+    _config["autospeak"] = value;
+}
+
+bool Config::isAutorun() const
+{
+    return _config.contains("autorun") ?
+        _config["autorun"].toBool() : false;
+}
+
+void Config::setAutorun(bool value)
+{
+    _config["autorun"] = value;
+}
+
+bool Config::isGetclipboardtext() const
+{
+    return _config.contains("getclipboardtext") ?
+        _config["getclipboardtext"].toBool() : true;
+}
+
+void Config::setClipboardtext(bool value)
+{
+    _config["getclipboardtext"] = value;
+}
+
+bool Config::isGetselectedtext() const
+{
+    return _config.contains("getselectedtext") ?
+        _config["getselectedtext"].toBool() : false;
+}
+
+void Config::setSelectedtext(bool value)
+{
+    _config["getselectedtext"] = value;
+}
+
+bool Config::isGetscreentext() const
+{
+    return _config.contains("getscreentext") ?
+        _config["getscreentext"].toBool() : true;
+}
+
+void Config::setScreentext(bool value)
+{
+    _config["getscreentext"] = value;
+}
+
+bool Config::isShowquerylogo() const
+{
+    return _config.contains("showquerylogo") ?
+        _config["showquerylogo"].toBool() : true;
+}
+
+void Config::setShowquerylogo(bool value)
+{
+    _config["showquerylogo"] = value;
+}
+
+bool Config::isAutoaddword() const
+{
+    return _config.contains("autoaddword") ?
+        _config["autoaddword"].toBool() : false;
+}
+
+void Config::setAutoaddword(bool value)
+{
+    _config["autoaddword"] = value;
 }

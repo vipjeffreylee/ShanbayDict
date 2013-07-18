@@ -30,52 +30,60 @@
 ****************************************************************************/
 #ifndef CONFIG_H
 #define CONFIG_H
+
 #include <QSettings>
+#include <QVariantMap>
+
 class Config
 {
 public:
     Config();
     ~Config();
 private:
-    QString username,userpass;
-    bool savepass,
-    autologin,
-    autospeak,
-    autoaddword,
-    getscreentext,
-    getclipboardtext,
-    getselectedtext,
-    showquerylogo,
-    autorun,
-    autohide;
+    /*
+    QString username;
+    QString userpass;
+    bool savepass;
+    bool autologin;
+    bool autospeak;
+    bool autoaddword;
+    bool getscreentext;
+    bool getclipboardtext;
+    bool getselectedtext;
+    bool showquerylogo;
+    bool autorun;
+    bool autohide;
+    */
+
     QSettings *settings;
     void load();
-public:
 
+    QVariantMap _config;
+public:
     void save();
-    QString getUsername();
-    void setUsername(QString name);
-    QString getUserpass();
-    void setUserpass(QString text);
-    bool isSavepass();
+    QString getUsername() const;
+    void setUsername(const QString &name);
+    QString getUserpass() const;
+    void setUserpass(const QString &text);
+    bool isSavepass() const;
     void setSavepass(bool value);
-    bool isAutologin();
+    bool isAutologin() const;
     void setAutologin(bool value);
-    bool isAutospeak();
+    bool isAutospeak() const;
     void setAutospeak(bool value);
-    bool isGetscreentext();
+    bool isGetscreentext() const;
     void setScreentext(bool value);
-    bool isGetclipboardtext();
+    bool isGetclipboardtext() const;
     void setClipboardtext(bool value);
-    bool isGetselectedtext();
+    bool isGetselectedtext() const;
     void setSelectedtext(bool value);
-    bool isShowquerylogo();
+    bool isShowquerylogo() const;
     void setShowquerylogo(bool value);
-    bool isAutorun();
+    bool isAutorun() const;
     void setAutorun(bool value);
-    bool isAutohide();
+    bool isAutohide() const;
     void setAutohide(bool value);
-    bool isAutoaddword();
+    bool isAutoaddword() const;
     void setAutoaddword(bool value);
 };
 
