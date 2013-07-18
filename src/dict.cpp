@@ -39,6 +39,7 @@
 #include "cfgdialog.h"
 #include <QClipboard>
 #include <QDir>
+#include <QtTest/QTest>
 namespace DICT{
 Msg *msg;
 Config *cfg;
@@ -138,6 +139,24 @@ void Msg::slotClipboardSelectionChanged(){
         DICT::querySelectedText(qApp->clipboard()->text(QClipboard::Selection));
     }
 
+#endif
+}
+static qint64 premsec;
+void Msg::slotClipboardSelectionChanged(){
+#ifndef Q_OS_WIN
+    //qDebug()<<"粘贴板选取内容"<<qApp->clipboard()->text(QClipboard::Selection);
+    premsec=QDateTime::currentMSecsSinceEpoch();
+    //qDebug()<<"时间sleep before premsec："<<premsec<<qApp->clipboard()->text(QClipboard::Selection);
+    //QThread::msleep(600);
+    QTest::qWait(300);//增加延迟，防止选词过程中触发
+    //qDebug()<<"时间sleep after："<<premsec<<QDateTime::currentMSecsSinceEpoch()-premsec<<qApp->clipboard()->text(QClipboard::Selection);
+    if(QDateTime::currentMSecsSinceEpoch()-premsec<300){
+        //qDebug()<<"粘贴板selected<1miao"<<qApp->clipboard()->text(QClipboard::Selection);
+        return;
+    }
+    if(!DICT::ballonWindow->isworking()){
+        DICT::querySelectedText(qApp->clipboard()->text(QClipboard::Selection));
+    }
 #endif
 }
 void Msg::slotAddwordFinished(bool ok){
