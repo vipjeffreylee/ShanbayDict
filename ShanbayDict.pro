@@ -1,6 +1,6 @@
 TEMPLATE = app
 TARGET = ShanbayDict
-QT += core gui network webkit multimedia
+QT += core gui network webkit multimedia testlib
 #phonon
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets webkitwidgets
 
