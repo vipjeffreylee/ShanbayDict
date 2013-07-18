@@ -132,15 +132,6 @@ void Msg::slotClipboardDataChanged(){
 #endif
     }
 }
-void Msg::slotClipboardSelectionChanged(){
-#ifndef Q_OS_WIN
-    qDebug()<<"粘贴板选取内容"<<qApp->clipboard()->text(QClipboard::Selection);
-    if(!DICT::ballonWindow->isworking()){
-        DICT::querySelectedText(qApp->clipboard()->text(QClipboard::Selection));
-    }
-
-#endif
-}
 static qint64 premsec;
 void Msg::slotClipboardSelectionChanged(){
 #ifndef Q_OS_WIN
