@@ -12,9 +12,9 @@ ConfigDb::ConfigDb()
 
 ConfigDb::~ConfigDb()
 {
-    dbLite.close();
     if (dbConfig != nullptr)
     {
+        dbLite.close();
         delete dbConfig;
         dbConfig = nullptr;
     }
