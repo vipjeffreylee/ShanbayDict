@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2013 Jeffrey Lee.
 ** All rights reserved.
@@ -45,6 +45,7 @@
 #include "logindialog.h"
 #include "config.h"
 #include "history.h"
+#include "configdb.h"
 //class ShanbayNet;
 //class SeadictNet;
 //class EnglishWord;
@@ -77,7 +78,8 @@ public slots:
 };
 enum BACKFRONT{BACK,FRONT};
 extern Msg *msg;
-extern Config *cfg;
+//extern Config *cfg;
+extern ConfigDb * cfg;
 extern ShanbayNet *shanbayNet;
 extern YoudaoNet *youdaoNet;
 extern MainWindow *mainWindow;

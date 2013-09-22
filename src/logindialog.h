@@ -1,4 +1,4 @@
-/****************************************************************************
+﻿/****************************************************************************
 **
 ** Copyright (C) 2013 Jeffrey Lee.
 ** All rights reserved.
@@ -32,6 +32,7 @@
 #define LoginDialog_H
 
 #include <QDialog>
+#include <QtWidgets>
 
 namespace Ui {
     class LoginDialog;

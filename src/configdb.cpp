@@ -1,11 +1,11 @@
-#include "configdb.h"
+﻿#include "configdb.h"
 
 ConfigDb * ConfigDb::dbConfig = nullptr;
 
 ConfigDb::ConfigDb()
 {
-    dbLite = QSqlDatabase::addDatabase("QSQLIte","ShanBayDiat");
-    dbLite.setDatabaseName("./seadict/Config.db");
+    dbLite = QSqlDatabase::addDatabase("QSQLITE","ShanBayDiat");
+    dbLite.setDatabaseName("Config.db");
     dbLite.open();
     load();
 }
@@ -32,13 +32,13 @@ ConfigDb * ConfigDb::getConfigDb()
 void  ConfigDb::load()
 {
     QSqlQuery sqlQue(dbLite);
-    if(sqlQue.exec("sqlQue * from setting"))
+    if(sqlQue.exec("select * from setting"))
     {
         while (sqlQue.next())
         {
             if(sqlQue.value("Key").toString() == "username")
             {
-                this->username = sqlQue.value("Value").toString();
+                this->username = sqlQue.value("Vaule").toString();
                 continue;
             }
             if(sqlQue.value("Key").toString() == "userpass")
@@ -172,15 +172,25 @@ void  ConfigDb::load()
     {
         sqlQue.exec("CREATE TABLE [setting] ([Key] [NVARCHAR(36)] NOT NULL, [Vaule] [NVARCHAR(36)],  CONSTRAINT [] PRIMARY KEY ([Key]));");
         sqlQue.exec("Insert into setting (Key,Vaule) values('autospeak','true') ");
+        this->autospeak = true;
         sqlQue.exec("Insert into setting (Key,Vaule) values('getscreentext','true') ");
+        this->getscreentext = true;
         sqlQue.exec("Insert into setting (Key,Vaule) values('getclipboardtext','true') ");
-        sqlQue.exec("Insert into setting (Key,Vaule) values('getsqlQueedtext','true') ");
+        this->getclipboardtext = true;
+        sqlQue.exec("Insert into setting (Key,Vaule) values('getselectedtext','true') ");
+        this->getselectedtext = true;
         sqlQue.exec("Insert into setting (Key,Vaule) values('showquerylogo','true') ");
-        sqlQue.exec("Insert into setting (Key,Vaule) values('autohide','true') ");
+        this->showquerylogo = true;
+        sqlQue.exec("Insert into setting (Key,Vaule) values('autohide','false') ");
+        this->autohide = false;
         sqlQue.exec("Insert into setting (Key,Vaule) values('autorun','false') ");
+        this->autorun = false;
         sqlQue.exec("Insert into setting (Key,Vaule) values('autoaddword','false') ");
+        this->autoaddword = false;
         sqlQue.exec("Insert into setting (Key,Vaule) values('autologin','false') ");
+        this->autologin = false;
         sqlQue.exec("Insert into setting (Key,Vaule) values('savepass','false') ");
+        this->savepass = false;
         sqlQue.exec("Insert into setting (Key,Vaule) values('username','') ");
         sqlQue.exec("Insert into setting (Key,Vaule) values('userpass','') ");
     }
@@ -189,57 +199,58 @@ void  ConfigDb::load()
 void  ConfigDb::save()
 {
      QSqlQuery tmp(dbLite);
-     tmp.exec(QString("update sett set Vaule='%1' where Key='username'").arg(this->username));
-     tmp.exec(QString("update sett set Vaule='%1' where Key='userpass'").arg(this->userpass));
+     tmp.exec(QString("update setting set Vaule='%1' where Key='username'").arg(this->username));
+     //qDebug() << QString("update setting set Vaule='%1' where Key='username'").arg(this->username);
+     tmp.exec(QString("update setting set Vaule='%1' where Key='userpass'").arg(this->userpass));
      if (this->autohide)
-         tmp.exec("update sett set Vaule='true' where Key='autohide'");
+         tmp.exec("update setting set Vaule='true' where Key='autohide'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='autohide'");
+         tmp.exec("update setting set Vaule='false' where Key='autohide'");
 
      if (this->savepass)
-         tmp.exec("update sett set Vaule='true' where Key='savepass'");
+         tmp.exec("update setting set Vaule='true' where Key='savepass'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='savepass'");
+         tmp.exec("update setting set Vaule='false' where Key='savepass'");
 
      if (this->autologin)
-         tmp.exec("update sett set Vaule='true' where Key='autologin'");
+         tmp.exec("update setting set Vaule='true' where Key='autologin'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='autologin'");
+         tmp.exec("update setting set Vaule='false' where Key='autologin'");
 
      if (this->autospeak)
-         tmp.exec("update sett set Vaule='true' where Key='autospeak'");
+         tmp.exec("update setting set Vaule='true' where Key='autospeak'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='autospeak'");
+         tmp.exec("update setting set Vaule='false' where Key='autospeak'");
 
      if (this->getscreentext)
-         tmp.exec("update sett set Vaule='true' where Key='getscreentext'");
+         tmp.exec("update setting set Vaule='true' where Key='getscreentext'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='getscreentext'");
+         tmp.exec("update setting set Vaule='false' where Key='getscreentext'");
 
      if (this->getclipboardtext)
-         tmp.exec("update sett set Vaule='true' where Key='getclipboardtext'");
+         tmp.exec("update setting set Vaule='true' where Key='getclipboardtext'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='getclipboardtext'");
+         tmp.exec("update setting set Vaule='false' where Key='getclipboardtext'");
 
      if (this->getselectedtext)
-         tmp.exec("update sett set Vaule='true' where Key='getselectedtext'");
+         tmp.exec("update setting set Vaule='true' where Key='getselectedtext'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='getselectedtext'");
+         tmp.exec("update setting set Vaule='false' where Key='getselectedtext'");
 
      if (this->showquerylogo)
-         tmp.exec("update sett set Vaule='true' where Key='showquerylogo'");
+         tmp.exec("update setting set Vaule='true' where Key='showquerylogo'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='showquerylogo'");
+         tmp.exec("update setting set Vaule='false' where Key='showquerylogo'");
 
      if (this->autorun)
-         tmp.exec("update sett set Vaule='true' where Key='autorun'");
+         tmp.exec("update setting set Vaule='true' where Key='autorun'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='autorun'");
+         tmp.exec("update setting set Vaule='false' where Key='autorun'");
 
      if (this->autoaddword)
-         tmp.exec("update sett set Vaule='true' where Key='autoaddword'");
+         tmp.exec("update setting set Vaule='true' where Key='autoaddword'");
      else
-         tmp.exec("update sett set Vaule='false' where Key='autoaddword'");
+         tmp.exec("update setting set Vaule='false' where Key='autoaddword'");
 }
 
 QString  ConfigDb::getUsername() const
