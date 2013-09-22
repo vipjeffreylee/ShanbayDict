@@ -7,7 +7,8 @@
 QT       += core gui\
             network\
             webkitwidgets\
-            multimedia
+            multimedia\
+            sql
             #phonon
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +32,8 @@ SOURCES += \
     src/dictview.cpp \
     src/texttranslatenet.cpp \
     src/cfgdialog.cpp \
-    src/youdaonet.cpp
+    src/youdaonet.cpp \
+    src/configdb.cpp
 HEADERS  += \
     src/shanbaynet.h \
     src/logindialog.h \
@@ -46,7 +48,8 @@ HEADERS  += \
     src/dictview.h \
     src/texttranslatenet.h \
     src/cfgdialog.h \
-    src/youdaonet.h
+    src/youdaonet.h \
+    src/configdb.h
 FORMS    += \
     src/logindialog.ui \
     src/mainwindow.ui \

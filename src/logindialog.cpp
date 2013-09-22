@@ -43,7 +43,12 @@ LoginDialog::LoginDialog(QWidget *parent) :
     connect(ui->loginButton,SIGNAL(clicked()),this,SLOT(loginClick()));
     connect(ui->registerButton,SIGNAL(clicked()),this,SLOT(registerClick()));
     connect(ui->labelLogo,SIGNAL(Clicked()),this,SLOT(logoClick()));
-
+    connect(ui->checkBox_auto,&QCheckBox::stateChanged,[this](int i){
+                                                        if (Qt::Checked == i)
+                                                        {
+                                                            ui->checkBox_pass->setChecked(true);
+                                                        }
+                                                        });
 
     ui->username->setText(DICT::cfg->getUsername());
     if(!ui->username->text().isEmpty()) ui->password->setFocus();
@@ -71,13 +76,14 @@ void LoginDialog::closeEvent(QCloseEvent *) {
 void LoginDialog::loginFinshed(bool ok,const QString &message){
     if(ok){
         DICT::cfg->setUsername(ui->username->text());
-        if(ui->checkBox_pass->isChecked()||ui->checkBox_auto->isChecked()){
+        if(ui->checkBox_pass->isChecked()){
             DICT::cfg->setUserpass(ui->password->text());
         }else{
             DICT::cfg->setUserpass("");
         }
         DICT::cfg->setSavepass(ui->checkBox_pass->isChecked());
         DICT::cfg->setAutologin(ui->checkBox_auto->isChecked());
+        DICT::cfg->save();
         hide();
         DICT::loginFinshed(true);
 

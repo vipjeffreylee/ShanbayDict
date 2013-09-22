@@ -93,5 +93,6 @@ void CfgDialog::savecfgClick(){
 
 #endif
     DICT::updateCfg();
+    DICT::cfg->save();
     this->hide();
 }

@@ -41,7 +41,8 @@
 #include <QDir>
 namespace DICT{
 Msg *msg;
-Config *cfg;
+//Config *cfg;
+ConfigDb * cfg;
 
 DictView *dictView;
 ShanbayNet *shanbayNet;
@@ -375,7 +376,8 @@ void login(){
    qDebug()<<"release";
 #endif
     msg=new Msg();
-    cfg=new Config();
+    //cfg=new Config();
+    cfg = ConfigDb::getConfigDb();
     shanbayNet=new ShanbayNet();
     loginDialog=new LoginDialog();
     loginDialog->show();
