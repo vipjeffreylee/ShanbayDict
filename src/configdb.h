@@ -1,3 +1,10 @@
+﻿/*
+ *把ini配置改为sqlite储存，用户帐号安全稍微进步一些，而且避免用户不小心修改配置文件。
+ *load（）函数负责第一次取数据库并赋值给类成员储存配置信息。
+ *save（）把成员储存的配置信息写入到数据库。
+ *此配置类为了同时打开多此数据库，设置为只可以实例化一个对象。
+*/
+
 #ifndef CONFIGDB_H
 #define CONFIGDB_H
 
@@ -9,6 +16,7 @@ class ConfigDb
 public:
     ~ConfigDb();
     void save();
+
     QString getUsername() const;
     void setUsername(const QString &name);
     QString getUserpass() const;
@@ -35,9 +43,11 @@ public:
     void setAutoaddword(bool value);
 
     static ConfigDb * getConfigDb();
+
 protected:
     ConfigDb();
     void load();
+
 private:
     QString username;
     QString userpass;
